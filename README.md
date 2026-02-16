@@ -175,6 +175,35 @@ Agent
 
 The plugin itself is a thin HTTP client — all the heavy lifting (LLM-based fact extraction, embedding generation, vector storage) happens in the Mem0 server.
 
+## Roadmap
+
+This plugin is the first step toward a broader goal: **a unified hybrid SQL + vector memory layer that works across multiple agent harnesses**.
+
+Today's AI agent ecosystem is fragmented — Claude Code, OpenClaw, Cursor, Windsurf, custom Agent SDK builds, and others each maintain their own isolated memory. An agent's knowledge dies with its session or stays locked inside one platform. We want to fix that.
+
+### Where we're headed
+
+**Hybrid storage.** Semantic vector search is great for recall, but agents also need structured data — task history, entity relationships, configuration state. The next iteration will back the memory server with a hybrid SQL + vector database (likely SQLite + Qdrant, or a single engine like LanceDB that handles both), so agents can query memories relationally _and_ semantically.
+
+**Harness-agnostic REST API.** The Mem0 REST interface already decouples memory from any specific agent framework. We plan to publish adapters for other harnesses beyond OpenClaw — Claude Code MCP servers, LangChain/LangGraph memory backends, CrewAI, and plain HTTP clients. Same memory, any agent.
+
+**Cross-agent knowledge sharing.** Today each agent session is a silo. With a shared memory server, agents can build on each other's work — one agent discovers a codebase pattern, another recalls it weeks later in a different project. The `user_id` and `metadata` fields already support multi-tenant partitioning; we'll extend this with namespaces, access control, and provenance tracking.
+
+**Tool and workflow integration.** Memory shouldn't just serve agents — it should feed into dashboards, search UIs, n8n workflows, and monitoring. The REST API is the foundation; we'll add webhooks, event streams, and export formats so memory becomes a shared resource across your entire automation stack.
+
+**Intelligent lifecycle management.** Memories accumulate without bound today. Future versions will add decay, deduplication, contradiction resolution, and importance scoring — so the memory store stays relevant and doesn't degrade search quality over time.
+
+### Contributing
+
+If this aligns with what you're building, we'd love contributions — especially around:
+
+- Adapters for other agent frameworks
+- Hybrid SQL + vector storage backends
+- Memory lifecycle and quality management
+- Search UI and observability tooling
+
+Open an issue to discuss your idea, or submit a PR.
+
 ## License
 
 MIT
