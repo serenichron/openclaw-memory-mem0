@@ -1,0 +1,33 @@
+{
+  "name": "memory-mem0",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "OpenClaw memory plugin backed by a self-hosted Mem0 REST API",
+  "main": "index.ts",
+  "openclaw": {
+    "extensions": ["./index.ts"]
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/serenichron/openclaw-memory-mem0.git"
+  },
+  "bugs": {
+    "url": "https://github.com/serenichron/openclaw-memory-mem0/issues"
+  },
+  "homepage": "https://github.com/serenichron/openclaw-memory-mem0#readme",
+  "dependencies": {
+    "@sinclair/typebox": "^0.34.0"
+  },
+  "keywords": [
+    "openclaw",
+    "plugin",
+    "memory",
+    "mem0",
+    "semantic-memory",
+    "vector-search",
+    "qdrant",
+    "ollama"
+  ],
+  "author": "Serenichron <dev@serenichron.agency>",
+  "license": "MIT"
+}
