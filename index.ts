@@ -407,18 +407,20 @@ export default {
     if (config.autoCapture) {
       api.on("agent_end", async (event: any) => {
         const messages = event.messages || [];
-
+        const contentToText = (content: unknown): string => {
+          if (typeof content === "string") return content;
+          if (Array.isArray(content)) {
+            return content.map((part: any) => (part?.text != null ? String(part.text) : "")).join("");
+          }
+          return "";
+        };
+    
         for (const msg of messages) {
           if (msg.role === "user" || msg.role === "assistant") {
-            const text = msg.content || "";
-
-            // Skip recalled memory context to prevent feedback loops
+            const text = contentToText(msg.content);
             if (text.includes("<relevant-memories>")) continue;
-
-            // Only capture substantial messages
             if (text.trim().length < 50) continue;
-
-            await client.add(text, event.agentId);
+            await client.add(text.trim(), event.agentId);
           }
         }
       });
