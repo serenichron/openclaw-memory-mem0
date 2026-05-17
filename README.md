@@ -17,7 +17,7 @@ Replaces the default LanceDB memory backend with Mem0's semantic extraction pipe
 
 A running Mem0 REST API server. You can set one up with:
 
-- [mem0ai](https://docs.mem0.ai/open-source/quickstart) (Python, self-hosted)
+- [Mem0 self-hosted setup](https://docs.mem0.ai/open-source/setup)
 - Any HTTP server that implements the `/memories`, `/memories/search`, and `/health` endpoints
 
 The plugin expects these REST endpoints:
@@ -154,6 +154,22 @@ When `autoCapture` is enabled, the plugin hooks into `agent_end`:
 2. Messages shorter than 50 characters are skipped
 3. Messages containing `<relevant-memories>` are skipped (prevents feedback loops)
 4. Remaining messages are sent to Mem0 for fact extraction and storage
+
+## Capturing Public X/Twitter Research
+
+`memory-mem0` works well with source-heavy agent workflows. To let an OpenClaw agent search tweets, search tweet replies, export followers, run user lookup, monitor tweets, inspect media, and draft approval-gated posts or replies, install [TweetClaw](https://github.com/Xquik-dev/tweetclaw) next to this memory plugin:
+
+```bash
+openclaw plugins install @xquik/tweetclaw
+```
+
+Keep `memory-mem0` in the memory slot and configure TweetClaw as its own plugin with an Xquik API key. Ask the agent to save only durable findings into memory, for example:
+
+```text
+Search tweets about "openclaw memory plugin", collect 10 relevant tweets and replies, then store a memory with the query, tweet URLs, authors, capture date, summary, and follow-up actions.
+```
+
+For monitors or webhooks, store event summaries instead of raw timelines. Include tweet URLs, query text, monitor name, capture date, confidence, and action taken. Do not store X/Twitter credentials, direct message bodies, private account material, or unreviewed post text as long-term memory.
 
 ## Switching from LanceDB
 
